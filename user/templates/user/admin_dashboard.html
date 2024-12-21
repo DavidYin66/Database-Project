@@ -1,0 +1,57 @@
+<!-- admin_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员主页</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .icon-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .icon-container a {
+            text-decoration: none;
+            text-align: center;
+        }
+        .icon-container img {
+            width: 80px;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="my-4">
+            <h1>欢迎，管理员 {{ user.username }}</h1>
+            <p>请选择下面的操作：</p>
+        </header>
+
+        <div class="icon-container">
+            <a href="{% url 'user:admin_employee_list' %}">
+                <img src="https://via.placeholder.com/100" alt="员工列表">
+                <p>查看所有员工信息</p>
+            </a>
+            <form method="get" action="{% url 'user:admin_edit_employee' 0 %}" onsubmit="return updateActionUrl(this);">
+                <label for="employee_id">输入员工 ID:</label>
+                <input type="number" id="employee_id" name="employee_id" required>
+                <button type="submit">修改员工信息</button>
+            </form>
+            
+            <script>
+                // 动态更新表单的 action URL
+                function updateActionUrl(form) {
+                    const employeeId = document.getElementById("employee_id").value;
+                    if (employeeId) {
+                        form.action = form.action.replace("0", employeeId); // 替换占位符 0
+                    }
+                    return true; // 继续提交表单
+                }
+            </script>
+                        
+        </div>
+    </div>
+</body>
+</html>

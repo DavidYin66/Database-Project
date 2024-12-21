@@ -1,0 +1,40 @@
+<!-- employee_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>员工主页</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .icon-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+        }
+        .icon-container a {
+            text-decoration: none;
+            text-align: center;
+        }
+        .icon-container img {
+            width: 80px;
+            height: 80px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="my-4">
+            <h1>欢迎，员工 {{ user.username }}</h1>
+            <p>请选择下面的操作：</p>
+        </header>
+
+        <div class="icon-container">
+            <a href="{% url 'user:employee_profile' %}">
+                <img src="https://via.placeholder.com/100" alt="个人信息">
+                <p>查看/修改个人信息</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

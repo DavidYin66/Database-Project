@@ -1,0 +1,20 @@
+<!-- admin_employee_list.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>员工列表</title>
+</head>
+<body>
+    <h1>员工列表</h1>
+    <ul>
+        {% for employee in employees %}
+            <li>
+                {{ employee.name }} - {{ employee.position }}
+                <a href="{% url 'user:admin_edit_employee' employee.id %}">编辑</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
