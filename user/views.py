@@ -93,9 +93,17 @@ def employee_profile(request):
 @login_required
 @user_passes_test(is_admin)
 def admin_employee_list(request):
-    # 获取所有员工信息
-    employees = Employee.objects.all()
-    return render(request, 'admin/admin_employee_list.html', {'employees': employees})
+    # 获取查询参数
+    query = request.GET.get('q', '')  # 默认查询为空
+    if query:
+        # 根据姓名筛选员工
+        employees = Employee.objects.filter(name__icontains=query)
+    else:
+        # 如果没有查询条件，则获取所有员工
+        employees = Employee.objects.all()
+    
+    return render(request, 'admin/admin_employee_list.html', {'employees': employees, 'query': query})
+
 
 @login_required
 @user_passes_test(is_admin)
@@ -237,4 +245,18 @@ def manage_attendance_settings(request):
 def manage_attendance(request):
     """管理员查看考勤记录"""
     records = Attendance.objects.all().order_by('-created_at')
-    return render(request, 'admin/manage_attendance.html', {'records': records})
+    attendance_stats = all_attendance_records(request)
+    return render(request, 'admin/manage_attendance.html', {'records': records, 'attendance_stats': attendance_stats})
+
+
+from django.db.models import Count, Q
+
+def all_attendance_records(request):
+    
+    # 按照员工分组，统计正常和异常的次数
+    attendance_stats = Attendance.objects.values('employee__username').annotate(
+        normal_count=Count('status', filter=Q(status='normal')),
+        abnormal_count=Count('status', filter=Q(status='abnormal'))
+    )
+
+    return attendance_stats

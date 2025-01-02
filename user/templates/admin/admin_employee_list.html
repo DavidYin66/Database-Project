@@ -5,6 +5,16 @@
 {% block content %}
 <div class="container mt-4">
     <h1 class="text-center mb-4">员工列表</h1>
+    
+    <!-- 搜索框 -->
+    <form method="get" action="{% url 'user:admin_employee_list' %}" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" name="q" value="{{ query }}" placeholder="按姓名搜索员工">
+            <button class="btn btn-primary" type="submit">搜索</button>
+        </div>
+    </form>
+    
+    <!-- 员工列表 -->
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
@@ -24,9 +34,14 @@
                         <a href="{% url 'user:admin_edit_employee' employee.id %}" class="btn btn-primary btn-sm">编辑</a>
                     </td>
                 </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">没有找到匹配的员工。</td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
+    
     <div class="text-center">
         <a href="{% url 'user:admin_dashboard' %}" class="btn btn-secondary">返回主页</a>
     </div>

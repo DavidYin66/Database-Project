@@ -5,6 +5,31 @@
 {% block content %}
 <div class="container mt-4">
     <h1 class="text-center mb-4">所有员工考勤记录</h1>
+
+    <!-- 考勤统计 -->
+    <div class="mb-4">
+        <h4>考勤统计</h4>
+        <table class="table table-bordered table-striped">
+            <thead class="table-dark">
+                <tr>
+                    <th>员工</th>
+                    <th>正常考勤次数</th>
+                    <th>异常考勤次数</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stat in attendance_stats %}
+                    <tr>
+                        <td>{{ stat.employee__username }}</td>
+                        <td>{{ stat.normal_count }}</td>
+                        <td>{{ stat.abnormal_count }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 员工考勤记录 -->
     <table class="table table-bordered table-striped">
         <thead class="table-dark">
             <tr>
@@ -17,22 +42,23 @@
         </thead>
         <tbody>
             {% for record in records %}
-            <tr>
-                <td>{{ record.employee.username }}</td>
-                <td>{{ record.created_at }}</td>
-                <td>{{ record.check_in_time }}</td>
-                <td>{{ record.check_out_time }}</td>
-                <td>
-                    {% if record.status == 'normal' %}
-                        <span class="badge badge-success">正常</span>
-                    {% else %}
-                        <span class="badge badge-danger">异常</span>
-                    {% endif %}
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ record.employee.username }}</td>
+                    <td>{{ record.created_at }}</td>
+                    <td>{{ record.check_in_time }}</td>
+                    <td>{{ record.check_out_time }}</td>
+                    <td>
+                        {% if record.status == 'normal' %}
+                            <span class="badge badge-success">正常</span>
+                        {% else %}
+                            <span class="badge badge-danger">异常</span>
+                        {% endif %}
+                    </td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
+
     <div class="form-group text-center">
         <a href="{% url 'user:admin_dashboard' %}" class="btn btn-secondary">返回主页</a>
     </div>
