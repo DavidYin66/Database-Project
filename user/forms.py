@@ -1,7 +1,7 @@
 # forms.py
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import UserProfile, Employee
+from .models import UserProfile, Employee, LeaveRequest, Attendance, AttendanceSettings
 
 def is_admin(user):
     return user.role == 'admin'
@@ -43,3 +43,49 @@ class EmployeeForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+class LeaveRequestForm(forms.ModelForm):
+    class Meta:
+        model = LeaveRequest
+        fields = ['leave_type', 'start_date', 'end_date', 'reason']
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date'}),  # 使用 HTML5 日期选择器
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+
+
+# 员工考勤签到签退表单
+class AttendanceForm(forms.ModelForm):
+    check_in_time = forms.TimeField(
+        label="签到时间",
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        required=False
+    )
+    check_out_time = forms.TimeField(
+        label="签退时间",
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        required=False
+    )
+
+    class Meta:
+        model = Attendance
+        fields = ['check_in_time', 'check_out_time']
+
+
+# 管理员设置上下班时间表单
+class AttendanceSettingsForm(forms.ModelForm):
+    start_time = forms.TimeField(
+        label="上班时间",
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        required=True
+    )
+    end_time = forms.TimeField(
+        label="下班时间",
+        widget=forms.TimeInput(attrs={'type': 'time'}),
+        required=True
+    )
+
+    class Meta:
+        model = AttendanceSettings
+        fields = ['start_time', 'end_time']

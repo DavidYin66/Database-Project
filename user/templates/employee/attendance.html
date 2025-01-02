@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}签到/签退{% endblock %}
+
+{% block content %}
+<h1 class="text-center">签到/签退</h1>
+<div class="container mt-4">
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="id_check_in_time">签到时间</label>
+            {{ form.check_in_time }}
+        </div>
+        <div class="form-group">
+            <label for="id_check_out_time">签退时间</label>
+            {{ form.check_out_time }}
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">提交</button>
+            <a href="{% url 'user:employee_dashboard' %}" class="btn btn-secondary">返回主页</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

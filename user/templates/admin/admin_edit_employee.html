@@ -1,10 +1,10 @@
 {% extends "base.html" %}
 
-{% block title %}查看/修改个人信息{% endblock %}
+{% block title %}查看/修改员工信息{% endblock %}
 
 {% block content %}
 <div class="container mt-4">
-    <h1 class="text-center mb-4">查看/修改个人信息</h1>
+    <h1 class="text-center mb-4">查看/修改员工信息</h1>
     <form method="POST">
         {% csrf_token %}
         <div class="form-group row mb-3 align-items-center">
@@ -51,7 +51,7 @@
         </div>
         <div class="form-group text-right">
             <button type="submit" class="btn btn-primary">保存修改</button>
-            <a href="{% url 'user:employee_dashboard' %}" class="btn btn-secondary">返回主页</a>
+            <a href="{% url 'user:admin_employee_list' %}" class="btn btn-secondary">返回员工列表</a>
         </div>
     </form>
 </div>

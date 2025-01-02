@@ -36,6 +36,7 @@ AUTH_USER_MODEL = 'user.UserProfile'
 INSTALLED_APPS = [
     "attendance",
     "user",
+    "widget_tweaks",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",

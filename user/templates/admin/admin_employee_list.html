@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}员工列表{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">员工列表</h1>
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>员工编号</th>
+                <th>姓名</th>
+                <th>职位</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for employee in employees %}
+                <tr>
+                    <td>{{ employee.id }}</td>
+                    <td>{{ employee.name }}</td>
+                    <td>{{ employee.position }}</td>
+                    <td>
+                        <a href="{% url 'user:admin_edit_employee' employee.id %}" class="btn btn-primary btn-sm">编辑</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="text-center">
+        <a href="{% url 'user:admin_dashboard' %}" class="btn btn-secondary">返回主页</a>
+    </div>
+</div>
+{% endblock %}
