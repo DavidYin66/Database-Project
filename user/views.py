@@ -154,13 +154,16 @@ def leave_history(request):
 
 from django.contrib.admin.views.decorators import staff_member_required
 
-@staff_member_required
+
+@login_required
+@user_passes_test(is_admin)
 def manage_leave_requests(request):
     leave_requests = LeaveRequest.objects.all().order_by('start_date')
     return render(request, 'admin/manage_leave_requests.html', {'leave_requests': leave_requests})
 
 
-@staff_member_required
+@login_required
+@user_passes_test(is_admin)
 def review_leave_request(request, leave_id, action):
     leave_request = LeaveRequest.objects.get(id=leave_id)
     if action == 'approve':
@@ -226,7 +229,8 @@ def attendance_history(request):
     return render(request, 'employee/attendance_history.html', {'records': records})
 
 
-@staff_member_required
+@login_required
+@user_passes_test(is_admin)
 def manage_attendance_settings(request):
     """管理员设置上下班时间"""
     settings = AttendanceSettings.objects.first()
@@ -241,7 +245,8 @@ def manage_attendance_settings(request):
     return render(request, 'admin/attendance_settings.html', {'form': form})
 
 
-@staff_member_required
+@login_required
+@user_passes_test(is_admin)
 def manage_attendance(request):
     """管理员查看考勤记录"""
     records = Attendance.objects.all().order_by('-created_at')
